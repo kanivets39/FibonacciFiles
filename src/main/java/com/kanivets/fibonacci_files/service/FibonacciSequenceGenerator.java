@@ -1,6 +1,7 @@
 package com.kanivets.fibonacci_files.service;
 
 import com.kanivets.fibonacci_files.exception.FibonacciException;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 /**
  * Fibonacci sequence generator.
  */
+@Log4j2
 public class FibonacciSequenceGenerator {
 
     /**
@@ -23,6 +25,7 @@ public class FibonacciSequenceGenerator {
         int currentMax = 0;
 
         if (max < 0) {
+            log.error("Maximum value invalid: "+ max);
             throw new FibonacciException("The maximum value must be greater than 0");
         } else {
             while (currentMax < max) {
@@ -32,7 +35,7 @@ public class FibonacciSequenceGenerator {
                 }
             }
         }
-
+        log.debug("Fibonacci sequence for max value: " +max+ " is - "+ fibonacci.toString());
         return fibonacci;
     }
 }

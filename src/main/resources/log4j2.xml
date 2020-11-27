@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="XMLConfigDebug" packages="org.apache.logging.log4j.simple">
+
+    <Properties>
+        <Property name="LOG_PATTERN">%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %c{2} - %m%n</Property>
+        <Property name="LOG_DIR">logs</Property>
+        <Property name="LOG_MODULE">fibonacci</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="debugLog" fileName="${LOG_DIR}/${LOG_MODULE}Debug.log"
+                     filePattern="${LOG_DIR}/${LOG_MODULE}Debug-%d{dd-MMM-hh}-%i.log.gz">
+            <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="infoLog" fileName="${LOG_DIR}/${LOG_MODULE}Info.log"
+                     filePattern="${LOG_DIR}/${LOG_MODULE}Info-%d{dd-MMM-hh}-%i.log.gz">
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="errorLog" fileName="logs/${LOG_MODULE}Error.log"
+                     filePattern="logs/${LOG_MODULE}Error-%d{dd-MMM-hh}-%i.log.gz">
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.kanivets" additivity="false">
+            <AppenderRef ref="debugLog"/>
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="errorLog"/>
+        </Logger>
+        <Root level="all">
+        </Root>
+    </Loggers>
+
+</Configuration>
